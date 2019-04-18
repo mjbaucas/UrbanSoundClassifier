@@ -73,8 +73,8 @@ if __name__ == "__main__":
         for i in range(0,100):
             sess.run(init)
         
-            saver = tf.train.import_meta_graph('Models/DogBarking_training_70_2500_2.ckpt.meta')
-            saver.restore(sess, "Models/DogBarking_training_70_2500_2.ckpt")
+            saver = tf.train.import_meta_graph('Models/DogBarking_training_70_2500B.ckpt.meta')
+            saver.restore(sess, "Models/DogBarking_training_70_2500B.ckpt")
 
             y_pred.append(sess.run(tf.argmax(prediction,1),feed_dict={X: test_x})[0])
             y_true.append(sess.run(tf.argmax(test_y,1))[0])
