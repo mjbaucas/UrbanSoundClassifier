@@ -5,6 +5,7 @@ import librosa
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import specgram
+import sys
 
 import tensorflow as tf
 from sklearn.metrics import precision_recall_fscore_support, classification_report
@@ -51,17 +52,17 @@ if __name__ == "__main__":
     parent_dir = 'SoundfilesB'
     #train_sub_dirs = ['8000']
     train_sub_dirs = ['3']
-    percent_split = 70
+    percent_split = 100
     num_classes = 2
     
     train_x, train_y = parse_audio(parent_dir,train_sub_dirs, percent_split)
     train_y = encode_matrix(train_y, num_classes)
 
-    training_steps = 2500
+    training_steps = int(sys.argv[1])
     num_input = train_x.shape[1]
-    num_hidden_one = 150
-    num_hidden_two = 170
-    learning_rate = 0.001
+    num_hidden_one = int(sys.argv[2])
+    num_hidden_two = int(sys.argv[3])
+    learning_rate = 0.1
     std_dev = 1 / np.sqrt(num_input)
     
     X = tf.placeholder(tf.float32,[None,num_input])
@@ -95,4 +96,4 @@ if __name__ == "__main__":
            sess.run([optimizer,loss],feed_dict={X:train_x,Y:train_y})
         
         #save_path = saver.save(sess, "Models/{}_training_{}.ckpt".format("_".join(train_sub_dirs), percent_split))
-        save_path = saver.save(sess, "Models/{}_training_{}_2500B.ckpt".format("DogBarking", percent_split))
+        save_path = saver.save(sess, "Models/{}_training_{}_{}B_{}_{}_01.ckpt".format("DogBarking", percent_split, training_steps, num_hidden_one, num_hidden_two))

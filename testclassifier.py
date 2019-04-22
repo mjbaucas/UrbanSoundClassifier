@@ -41,12 +41,14 @@ def encode_matrix(labels, num_unique_labels):
     return encoded_matrix
 
 if __name__ == "__main__":
-    training_steps = 2500
+    training_steps = int(sys.argv[2])
     num_input = 193
-    num_hidden_one = 280 
-    num_hidden_two = 300
-    learning_rate = 0.2
+    num_hidden_one = int(sys.argv[3])
+    num_hidden_two = int(sys.argv[4])
+    learning_rate = 0.01
     num_classes = 2
+    percent_split = 100
+    file = open("stats.txt", "a+")
 
     test_x, test_y = parse_audio_file(os.getcwd() + "/" + sys.argv[1])
     test_y = encode_matrix(test_y, num_classes)
@@ -73,12 +75,13 @@ if __name__ == "__main__":
         for i in range(0,100):
             sess.run(init)
         
-            saver = tf.train.import_meta_graph('Models/DogBarking_training_70_2500B.ckpt.meta')
-            saver.restore(sess, "Models/DogBarking_training_70_2500B.ckpt")
+            saver = tf.train.import_meta_graph('Models/DogBarking_training_{}_{}B_{}_{}_01.ckpt.meta'.format(percent_split, training_steps, num_hidden_one, num_hidden_two))
+            saver.restore(sess, "Models/DogBarking_training_{}_{}B_{}_{}_01.ckpt".format(percent_split, training_steps, num_hidden_one, num_hidden_two))
 
             y_pred.append(sess.run(tf.argmax(prediction,1),feed_dict={X: test_x})[0])
             y_true.append(sess.run(tf.argmax(test_y,1))[0])
 
-    print(y_pred)
+    p,r,f,s = precision_recall_fscore_support(y_true, y_pred, average='micro')
+    file.write("{} {} {} {}: {} {} {} {} \n".format(percent_split, training_steps, num_hidden_one, num_hidden_two, p, r, f, s))
     print(classification_report(y_true, y_pred))
 

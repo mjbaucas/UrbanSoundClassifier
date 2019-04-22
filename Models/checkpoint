@@ -1,2 +1,2 @@
-model_checkpoint_path: "DogBarking_training_70_2500B.ckpt"
-all_model_checkpoint_paths: "DogBarking_training_70_2500B.ckpt"
+model_checkpoint_path: "DogBarking_training_100_3000B_150_150_01.ckpt"
+all_model_checkpoint_paths: "DogBarking_training_100_3000B_150_150_01.ckpt"

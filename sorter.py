@@ -44,4 +44,4 @@ if __name__ == "__main__":
     parent_dir = 'SoundfilesB'
 
     sub_dirs = ['3'] # fold1, fold4
-    sort_audio_files(parent_dir,sub_dirs, 70)
+    sort_audio_files(parent_dir,sub_dirs, 100)
