@@ -6,9 +6,10 @@ import random
 from shutil import copyfile
 
 def sort_audio_files(parent_dir,sub_dirs, percent_split, file_ext='*.txt'):
-    training_dir = "{}/TrainingSet/{}%".format(parent_dir, str(percent_split))
+    training_dir = "{}/TrainingSet/{}%_{}".format(parent_dir, str(percent_split), '_'.join(sub_dirs))
+    print(training_dir)
     if not os.path.exists(training_dir):
-         os.makedirs(training_dir)
+        os.makedirs(training_dir)
 
     sound_pool = {}
     for label, sub_dir in enumerate(sub_dirs):
@@ -37,11 +38,11 @@ def sort_audio_files(parent_dir,sub_dirs, percent_split, file_ext='*.txt'):
             if not os.path.isfile("{}/{}.txt".format(training_dir, sound_split)):
                 try:
                     copyfile("{}/{}/{}.txt".format(parent_dir, key_split, sound_split), "{}/{}.txt".format(training_dir, sound_split))
-                    #print("{}/{}/{}.txt".format(parent_dir, key_split, sound_split))
+                    print("{}/{}/{}.txt".format(parent_dir, key_split, sound_split))
                 except Exception as e:
                     print('{}'.format(e))
 if __name__ == "__main__":
     parent_dir = 'SoundfilesB'
 
-    sub_dirs = ['3'] # fold1, fold4
-    sort_audio_files(parent_dir,sub_dirs, 100)
+    sub_dirs = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] # fold1, fold4
+    sort_audio_files(parent_dir,sub_dirs, 70)

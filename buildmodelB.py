@@ -24,9 +24,10 @@ def extract_feature(file_name, sample_rate):
     return mfccs,chroma,mel,contrast,tonnetz
 
 def parse_audio(parent_dir, sub_dirs, percent_split, file_ext='*.txt'):
-    training_dir = "{}/TrainingSet/{}%".format(parent_dir, str(percent_split))
+    training_dir = "{}/TrainingSet/{}%_{}".format(parent_dir, str(percent_split), "_".join(sub_dirs))
     if not os.path.exists(training_dir):
          os.makedirs(training_dir)
+    print(training_dir)
     features, labels = np.empty((0,193)), np.empty(0)
     for label, sub_dir in enumerate(sub_dirs):
         for fn in glob.glob(os.path.join(parent_dir, sub_dir, file_ext)):
@@ -37,7 +38,10 @@ def parse_audio(parent_dir, sub_dirs, percent_split, file_ext='*.txt'):
                     mfccs, chroma, mel, contrast,tonnetz = extract_feature(fn, 22050)
                     ext_features = np.hstack([mfccs,chroma,mel,contrast,tonnetz])
                     features = np.vstack([features,ext_features])
-                    labels = np.append(labels, 1)
+                    if fn.split('/')[2].split('-')[1] == '2':
+                        labels = np.append(labels, 1)
+                    else:
+                        labels = np.append(labels, 0)                        
                 except Exception as e:
                     print(e)
     return np.array(features), np.array(labels, dtype = np.int)
@@ -51,8 +55,8 @@ def encode_matrix(labels, num_unique_labels):
 if __name__ == "__main__":
     parent_dir = 'SoundfilesB'
     #train_sub_dirs = ['8000']
-    train_sub_dirs = ['3']
-    percent_split = 100
+    train_sub_dirs = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    percent_split = 70
     num_classes = 2
     
     train_x, train_y = parse_audio(parent_dir,train_sub_dirs, percent_split)
@@ -95,5 +99,6 @@ if __name__ == "__main__":
         for step in range(training_steps):            
            sess.run([optimizer,loss],feed_dict={X:train_x,Y:train_y})
         
+        print("Test accuracy: ",round(sess.run(accuracy, feed_dict={X: train_x,Y: train_y}),3))
         #save_path = saver.save(sess, "Models/{}_training_{}.ckpt".format("_".join(train_sub_dirs), percent_split))
-        save_path = saver.save(sess, "Models/{}_training_{}_{}B_{}_{}_01.ckpt".format("DogBarking", percent_split, training_steps, num_hidden_one, num_hidden_two))
+        save_path = saver.save(sess, "Models/{}_training_{}_{}B_{}_{}_01x.ckpt".format("ChildrenPlaying_DogBarking", percent_split, training_steps, num_hidden_one, num_hidden_two))
