@@ -42,7 +42,6 @@ def parse_audio_file(file_dir):
         mfccs, chroma, mel, contrast,tonnetz = extract_feature(file_dir)
         ext_features = np.hstack([mfccs,chroma,mel,contrast,tonnetz])
         features = np.vstack([features,ext_features])
-        labels = np.append(labels, 1)
         labels = np.append(labels, 0)
     except Exception as e:
         print(e)
@@ -60,8 +59,8 @@ def parse_audio_files(parent_dir, sub_dirs, percent_split, file_ext='*.txt'):
             if not os.path.isfile("{}/{}.txt".format(training_dir, sound_name_split)):
                 print(fn)
                 try:
-                    #mfccs, chroma, mel, contrast,tonnetz = extract_feature(fn)
-                    mfccs, chroma, mel, contrast,tonnetz = extract_features(fn, 22050)
+                    mfccs, chroma, mel, contrast,tonnetz = extract_feature(fn)
+                    #mfccs, chroma, mel, contrast,tonnetz = extract_features(fn, 22050)
                     ext_features = np.hstack([mfccs,chroma,mel,contrast,tonnetz])
                     features = np.vstack([features,ext_features])
                     print(fn.split('/')[2].split('-')[1])
@@ -91,8 +90,8 @@ if __name__ == "__main__":
     percent_split = 70
     file = open("stats.txt", "a+")
 
-    #test_x, test_y = parse_audio_file(os.getcwd() + "/" + sys.argv[1])
-    test_x, test_y = parse_audio_files("SoundfilesB", ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], percent_split)
+    test_x, test_y = parse_audio_file(os.getcwd() + "/" + sys.argv[1])
+    #test_x, test_y = parse_audio_files("SoundfilesB", ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], percent_split)
     test_y = encode_matrix(test_y, num_classes)
     X = tf.placeholder(tf.float32,[None,num_input])
     Y = tf.placeholder(tf.float32,[None,num_classes])
