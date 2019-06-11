@@ -13,6 +13,6 @@ if __name__ == "__main__":
 		os.system("python3 ../SoundRecorder/soundrec.py {}".format(file_name))
 		elapse = time.time() - elapse
 		time_file.write("Middle {}: {}".format(i, elapse))
-		os.system("python3 ../UrbanSoundClassifier/testclassifier.py {} {} {} {}".format(file_name, 3000, 100, 150))
+		os.system("python3 ../UrbanSoundClassifier/testclassifier.py {} {} {} {}".format(file_name, 5000, 280, 300))
 		elapse = time.time() - elapse
 		time_file.write("End {}: {}".format(i, elapse))
