@@ -4,15 +4,16 @@ import time
 if __name__ == "__main__":
 	file_name = "testsound.wav"
 	
-	time_file = open("cloudtime.txt", "a+")
+	time_file = open("edgetime.txt", "a+")
 	
-	elapse = time.time()
-	for i in range(0, 100):
-		elapse = time.time() - elapse
-		time_file.write("Start {}: {}".format(i, elapse))
+	for i in range(0, 20):
+		lapse = time.time()
+		time_file.write("Start {}: {}\n".format(i, lapse))
 		os.system("python3 ../SoundRecorder/soundrec.py {}".format(file_name))
-		elapse = time.time() - elapse
-		time_file.write("Middle {}: {}".format(i, elapse))
+		lapse = time.time()
+		time_file.write("Middle {}: {}\n".format(i, lapse))
 		os.system("python3 ../UrbanSoundClassifier/testclassifier.py {} {} {} {}".format(file_name, 5000, 280, 300))
-		elapse = time.time() - elapse
-		time_file.write("End {}: {}".format(i, elapse))
+		lapse = time.time()
+		time_file.write("End {}: {}\n".format(i, lapse))
+		
+	time_file.close()

@@ -8,7 +8,7 @@ if __name__ == "__main__":
 	time_file = open("cloudtime.txt", "a+")
 	
 	elapse = time.time()
-	for i in range(0, 100):
+	for i in range(0, 20):
 		elapse = time.time() - elapse
 		time_file.write("Start {}: {}\n".format(i, elapse))
 		os.system("python3 ../SoundRecorder/soundrec.py {}".format(file_name))
