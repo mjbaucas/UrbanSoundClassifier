@@ -7,7 +7,7 @@ if __name__ == "__main__":
 	
 	time_file = open("recordtime.txt", "a+")
 	
-	for i in range(0, 20):
+	for i in range(0, 30):
 		lapse = time.time()
 		time_file.write("Start {}: {}\n".format(i, lapse))
 		os.system("python3 ../SoundRecorder/soundrec.py {}".format(file_name))
