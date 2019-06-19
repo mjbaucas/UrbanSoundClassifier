@@ -8,7 +8,7 @@ if __name__ == "__main__":
 	
 	time_file = open("hybridtime.txt", "a+")
 	
-	for i in range(0, 1):
+	for i in range(0, 30):
 		lapse = time.time()
 		time_file.write("Start {}: {}\n".format(i, lapse))
 		os.system("python3 ../SoundRecorder/soundrec.py {}".format(file_name))
@@ -16,7 +16,7 @@ if __name__ == "__main__":
 		lapse = time.time()
 		time_file.write("Middle1 {}: {}\n".format(i, lapse))
 		
-		os.system("python3 testmodelextract.py {}".format(file_name2))
+		os.system("python3 testmodelextract.py {} {}".format(file_name, file_name2))
 		
 		lapse = time.time()
 		time_file.write("Middle2 {}: {}\n".format(i, lapse))
@@ -31,6 +31,7 @@ if __name__ == "__main__":
 			if not data:
 				break
 			sent = client.send(data)
+			print(sent)
 			feature_data = feature_data[sent:]
 				
 		from_server = client.recv(4096)	
