@@ -1,5 +1,6 @@
 import glob
 import os
+import sys
 import librosa
 import numpy as np
 
@@ -27,7 +28,7 @@ def parse_audio_files(file_name,file_ext='*.wav'):
     return np.array(features)
 
 
-file_name = "Soundfiles/TestSounds/Dog_Barking_Test1.wav"
+file_name = sys.argv[1]
 x_data = parse_audio_files(file_name)
 
 with tf.Session() as sess:
