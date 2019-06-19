@@ -11,13 +11,15 @@ if __name__ == "__main__":
         connection, address = server.accept()
 
         file_name = "testfeature.npy"
+	size_count = 0
         with open(file_name, "wb") as f:
             while True:
                 recieve = connection.recv(4096)
-                if not recieve or recieve == "":
+                size_count += len(recieve)
+		if not recieve or recieve == "" or size_count > 1600:
                     break
                 f.write(recieve)
 
-        os.system("python3 testmodelclassifier.py {}".format(file_name))
+        os.system("python3 testmodelclassify.py {}".format(file_name))
         connection.send("Done".encode('utf-8'))
         connection.close()

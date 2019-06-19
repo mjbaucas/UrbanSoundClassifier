@@ -11,10 +11,12 @@ if __name__ == "__main__":
         connection, address = server.accept()
 
         file_name = "testsound2.wav"
+        size_count = 0
         with open("testsound2.wav", "wb") as f:
             while True:
                 recieve = connection.recv(4096)
-                if not recieve or recieve == "":
+                size_count += recieve
+                if not recieve or recieve == "" or size_count > 319000:
                     break
                 f.write(recieve)
 
