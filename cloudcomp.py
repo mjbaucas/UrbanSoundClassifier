@@ -17,9 +17,6 @@ if __name__ == "__main__":
 		sound_file = open(file_name, "rb")
 		sound_data = sound_file.read()
 		
-		#Turn ethernet port on
-		os.system('sudo ./uhubctl -a on -p 1')
-		
 		client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		
 		connected = False
@@ -40,9 +37,6 @@ if __name__ == "__main__":
 				
 		from_server = client.recv(4096)	
 		print(from_server)
-		
-		#Turn ethernet port off
-		os.system('sudo ./uhubctl -a off -p 1')
-		
+				
 		lapse = time.time()
 		time_file.write("End {}: {}\n".format(i, lapse))
