@@ -31,7 +31,6 @@ if __name__ == "__main__":
 			if not data:
 				break
 			sent = client.send(data)
-			print(sent)
 			feature_data = feature_data[sent:]
 				
 		from_server = client.recv(4096)	
