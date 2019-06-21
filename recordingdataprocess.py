@@ -96,7 +96,7 @@ if __name__ == "__main__":
     record_list_s, send_list, time_list_s = organize_data(times_send)
 
 
-    power_list_record = get_power_list(time_list, 'recordingpower5.csv')
+    power_list_record = get_power_list(time_list, 'recordingpower6.csv')
     power_list_send = get_power_list(time_list_s, 'recordingpowersend4.csv') 
 
     power_list_record.remove(power_list_record[0])
