@@ -24,7 +24,7 @@ if __name__ == "__main__":
 				break
 			sent = client.send(data)
 			sound_data = sound_data[sent:]
-			print(sent)
+			#print(sent)
 				
 		from_server = client.recv(4096)	
 		print(from_server)
