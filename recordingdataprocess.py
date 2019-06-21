@@ -97,7 +97,7 @@ if __name__ == "__main__":
 
 
     power_list_record = get_power_list(time_list, 'recordingpower5.csv')
-    power_list_send = get_power_list(time_list_s, 'recordingpowersend3.csv') 
+    power_list_send = get_power_list(time_list_s, 'recordingpowersend4.csv') 
 
     power_list_record.remove(power_list_record[0])
     power_list_send.remove(power_list_send[0])
