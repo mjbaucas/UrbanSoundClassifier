@@ -5,7 +5,8 @@ import socket
 if __name__ == "__main__":	
 	exit_client = False
 	while exit_client == False:	
-		file_name = "testsound.wav"
+		#file_name = "testsound.wav"
+		file_name = "testfeatures.npy"
 
 		sound_file = open(file_name, "rb")
 		sound_data = sound_file.read()
