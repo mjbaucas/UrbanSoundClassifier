@@ -30,7 +30,7 @@ if __name__ == "__main__":
 				sent = client.send(data)
 				sound_data = sound_data[sent:]
 			except Exception as e:
-				time.sleep(2)
+				time.sleep(2)  
 				break
 			
 		from_server = client.recv(1024)
