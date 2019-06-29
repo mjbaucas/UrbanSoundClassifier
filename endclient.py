@@ -20,7 +20,7 @@ if __name__ == "__main__":
 				client.connect(("10.11.148.56", 32500))
 				connected = True
 			except Exception as e:
-				time.sleep(3)
+				time.sleep(5)
 				connected = False
 				# Do nothing
 		
@@ -32,9 +32,9 @@ if __name__ == "__main__":
 				sent = client.send(data)
 				sound_data = sound_data[sent:]
 			except Exception as e:
-				time.sleep(3)  
+				time.sleep(5)  
 				break
-		time.sleep(4)	
+		time.sleep(10)	
 		from_server = client.recv(1024)
 
 	
