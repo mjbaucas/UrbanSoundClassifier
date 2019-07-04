@@ -5,11 +5,13 @@ import socket
 if __name__ == "__main__":	
 	exit_client = False
 	while exit_client == False:	
-		file_name = "testsound.wav"
+		#file_name = "testsound.wav"
+		file_name = "testfeatures.npy"
 
 		sound_file = open(file_name, "rb")
 		sound_data = sound_file.read()
-
+		sound_data = b'0'
+		
 		connected = False
 		while connected == False:
 			try:
@@ -32,7 +34,7 @@ if __name__ == "__main__":
 			except Exception as e:
 				time.sleep(2)  
 				break
-			
+		time.sleep(2)	
 		from_server = client.recv(1024)
 
 	
