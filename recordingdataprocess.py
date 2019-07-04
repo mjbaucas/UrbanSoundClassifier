@@ -86,8 +86,8 @@ def organize_power_list(power_list, value):
     return power_record_list, power_send_list
 
 if __name__ == "__main__":
-    data_file_record = open("recordtime.txt", "r")
-    data_file_send = open("recordsendtime.txt", "r")
+    data_file_record = open("recordtime_model.txt", "r")
+    data_file_send = open("recordtimesend_model.txt", "r")
 
     times_record = get_times(data_file_record)
     times_send = get_times(data_file_send)
@@ -96,8 +96,8 @@ if __name__ == "__main__":
     record_list_s, send_list, time_list_s = organize_data(times_send)
 
 
-    power_list_record = get_power_list(time_list, 'recordingpower6.csv')
-    power_list_send = get_power_list(time_list_s, 'recordingpowersend4.csv') 
+    power_list_record = get_power_list(time_list, 'recordingpower_100_model.csv')
+    power_list_send = get_power_list(time_list_s, 'recordingpower_100_send.csv') 
 
     power_list_record.remove(power_list_record[0])
     power_list_send.remove(power_list_send[0])
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     pyplot.ylabel('Average Power (mW)')
     pyplot.xlabel('Program Iterations')
     pyplot.xticks(list(range(0,21))[::5])
-    pyplot.savefig('power_record.png')
+    pyplot.savefig('power_record_test1.png')
 
     diff = []
     for x in range(0, 20):

@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
 		sound_file = open(file_name, "rb")
 		sound_data = sound_file.read()
-		
+
 		connected = False
 		while connected == False:
 			try:

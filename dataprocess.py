@@ -32,7 +32,7 @@ def organize_data(time_dict):
     time_list.append(0)
     for key, value in time_dict.items():
         if 'Middle1' in value:
-            time_dict[key] = [float(value['End']) - float(value['Middle2']), float(value['Middle2']) - float(value['Middle1']), float(value['Middle1']) - float(value['Start'])]
+            time_dict[key] = [float(value['End']) - (float(value['Middle2']) + 4), (float(value['Middle2']) + 4) - float(value['Middle1']) , float(value['Middle1']) - float(value['Start'])]
             record_list.append(time_dict[key][2])
             extract_list.append(time_dict[key][1])
             classifier_list.append(time_dict[key][0])
@@ -110,10 +110,33 @@ def organize_power_list(power_list, override):
     
     return power_record_list, power_extract_list, power_classifier_list
 
+def add_results(local_record, local_classify, server_record, server_classify, hybrid_record, hybrid_extract, hybrid_classify):
+    # Add both 
+    local_temp = []
+    server_temp = []
+    hybrid_temp = []
+    for x in range(0,20):
+        local_temp.append((local_record[x] + local_classify[x])/2)
+        server_temp.append((server_record[x] + server_classify[x])/2)
+        hybrid_temp.append((hybrid_record[x] + hybrid_extract[x] + hybrid_classify[x])/3)
+        
+    #pyplot.scatter(range(1,21), local_temp, 20, label='Configuration A')
+    #pyplot.scatter(range(1,21), server_temp, 20, label='Configuration B')
+    pyplot.bar(range(1,21), local_temp, width=0.3,label="Local", align="center")
+    pyplot.bar(numpy.arange(1.3, 21.3, 1.0), server_temp, width=0.3,label="Server", align="center")
+    #pyplot.scatter(range(1,21), hybrid_temp, 20, label='Configuration C')
+    pyplot.legend(loc='best')
+    pyplot.ylabel('Average Power (mW)')
+    pyplot.xlabel('Program Iterations')
+    pyplot.xticks(list(range(0,21))[::5])
+    pyplot.ylim([1800, 1900])
+    pyplot.savefig('power_noise.png')
+    pyplot.close()
+
 if __name__ == "__main__":
-    data_file_local = open("edgetime.txt", "r")
-    data_file_server = open("cloudtime.txt", "r")
-    data_file_hybrid = open("hybridtime.txt", "r")
+    data_file_local = open("edgetime_model.txt", "r")
+    data_file_server = open("cloud_time_no_wifi_toggle.txt", "r")
+    data_file_hybrid = open("hybrid_time.txt", "r")
 
     times_local = get_times(data_file_local)
     times_server = get_times(data_file_server)
@@ -127,18 +150,18 @@ if __name__ == "__main__":
     #print(time_list_local)
     #print(time_list_server)
     
-    pyplot.scatter(range(1,21), record_list_local, 20, alpha=0.5, label='Recording (Local)')
-    pyplot.scatter(range(1,21), classifier_list_local, 20, alpha=0.5, label='Classifying (Local)')
-    pyplot.scatter(range(1,21), record_list_server, 20, alpha=0.5, label='Recording (Server)')
-    pyplot.scatter(range(1,21), classifier_list_server, 20, alpha=0.5, label='Classifying (Server)')
-    pyplot.scatter(range(1,21), record_list_hybrid, 20, alpha=0.5, label='Recording (Hybrid)')
-    pyplot.scatter(range(1,21), extract_list_hybrid, 20, alpha=0.5, label='Extracting (Hybrid)')
-    pyplot.scatter(range(1,21), classifier_list_hybrid, 20, alpha=0.5, label='Classifying (Hybrid)')
-    pyplot.legend(loc='upper right')
+    pyplot.scatter(range(1,21), record_list_local, 20, label='Recording A')
+    pyplot.scatter(range(1,21), classifier_list_local, 20, label='Classifying A')
+    pyplot.scatter(range(1,21), record_list_server, 20, label='Recording B')
+    pyplot.scatter(range(1,21), classifier_list_server, 20, label='Classifying B')
+    #pyplot.scatter(range(1,21), record_list_hybrid, 20, label='Recording (Hybrid)')
+    #pyplot.scatter(range(1,21), extract_list_hybrid, 20, label='Extracting (Hybrid)')
+    #pyplot.scatter(range(1,21), classifier_list_hybrid, 20, label='Classifying (Hybrid)')
+    pyplot.legend(loc='best')
     pyplot.ylabel('Time (s)')
     pyplot.xlabel('Program Iterations')
     pyplot.xticks(list(range(0,21))[::5])
-    pyplot.savefig('runtime_hybrid.png')
+    pyplot.savefig('runtime_locserv.png')
     pyplot.close()
 
     print(sum(record_list_hybrid)/ len(record_list_hybrid))
@@ -149,9 +172,9 @@ if __name__ == "__main__":
     print(sum(record_list_local)/ len(record_list_local))
     print(sum(classifier_list_local)/ len(classifier_list_local))
 
-    power_list_server = get_power_list(time_list_server, 'cloudcomputing_10_wifi.csv')  
-    power_list_hybrid = get_power_list(time_list_hybrid, 'hybridcomputing_10_wifi.csv')  
-    power_list_local = get_power_list(time_list_local, 'devicecomputing_10_wifi.csv')
+    power_list_server = get_power_list(time_list_server, 'cloudcomputing_100_no_toggle.csv')  
+    power_list_hybrid = get_power_list(time_list_hybrid, 'hybridcomputing_100_model.csv')  
+    power_list_local = get_power_list(time_list_local, 'devicecomputing_100_edge.csv')
     
     power_list_server.remove(power_list_server[0])
     power_list_hybrid.remove(power_list_hybrid[0])
@@ -160,7 +183,9 @@ if __name__ == "__main__":
     power_record_list_server, [], power_classifier_list_server = organize_power_list(power_list_server, 1)
     power_record_list_hybrid, power_extract_list_hybrid, power_classifier_list_hybrid = organize_power_list(power_list_hybrid, 0)
     power_record_list_local, [], power_classifier_list_local = organize_power_list(power_list_local, 1)
-   
+
+    add_results(power_record_list_local, power_classifier_list_local, power_record_list_server, power_classifier_list_server, power_record_list_hybrid, power_extract_list_hybrid, power_classifier_list_hybrid)
+
     pyplot.scatter(range(1,21), power_record_list_local, 20, alpha=0.5, label='Recording (Local)')
     pyplot.scatter(range(1,21), power_classifier_list_local, 20, alpha=0.5, label='Classifying (Local)')
     pyplot.scatter(range(1,21), power_record_list_hybrid, 20, alpha=0.5, label='Recording (Hybrid)')
@@ -172,7 +197,8 @@ if __name__ == "__main__":
     pyplot.ylabel('Average Power (mW)')
     pyplot.xlabel('Program Iterations')
     pyplot.xticks(list(range(0,21))[::5])
-    pyplot.savefig('power_hybrid.png')
+    pyplot.savefig('power_test1.png')
+    pyplot.close()
 
     #print(power_record_list_server)
     #print(power_record_list_local)
@@ -181,7 +207,6 @@ if __name__ == "__main__":
     print(sum(power_classifier_list_server)/ len(power_classifier_list_server))
     print(sum(power_record_list_hybrid)/ len(power_record_list_hybrid))
     print(sum(power_extract_list_hybrid)/ len(power_extract_list_hybrid))
-    print(sum(power_classifier_list_hybrid)/ len(power_classifier_list_hybrid))
     print(sum(power_record_list_local)/ len(power_record_list_local))
     print(sum(power_classifier_list_local)/ len(power_classifier_list_local))
     
