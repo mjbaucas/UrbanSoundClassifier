@@ -3,6 +3,7 @@ The UrbanSoundClassifier provides a test environment for urban sound classificat
 
 <p align="center">            
 <img src="https://github.com/mjbaucas/UrbanSoundClassifier/blob/master/images/FrameworkSetup.png">
+Setup
 </p>
 
 # Configurations
