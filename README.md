@@ -1,18 +1,24 @@
 # UrbanSoundClassifier
 The UrbanSoundClassifier provides a test environment for urban sound classification using the UrbanSound8K dataset from https://urbansounddataset.weebly.com/. The environment makes use of Client-Server socket communication, written in Python3.6. The clients were Raspberry Pis connected to a digital MEMS microphone for sound collection. 
 
+# Configurations
 The environment comes with three configurations each focusinig on a certain aspect of the network (i.e. Edge, Cloud, Hybrid)
 
-# What to run
-For Edge:
+## Edge:
+  - Focuses processing load on the end devices.
+  ### To run
   - Run edgecomp.py on the client
-  - Run cloudcompsock.py on server  
+  - Run serversock.py on server  
 
-For Cloud:
+## Cloud:
+  - Focuses processing load on the server.
+  ### To run
   - Run cloudcomp.py on client
   - Run cloudcompsock.py on server
   
-For Hybrid:
+## Hybrid:
+  - Distributes processing load between server and end device.
+  ### To run
   - Run hybridcomp.py on client
   - Run hybridcompsock.py on server
 
