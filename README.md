@@ -1,10 +1,9 @@
 # UrbanSoundClassifier
 The UrbanSoundClassifier provides a test environment for urban sound classification using the UrbanSound8K dataset from https://urbansounddataset.weebly.com/. The environment makes use of Client-Server socket communication, written in Python3.6. The clients were Raspberry Pis connected to a digital MEMS microphone for sound collection. 
 
-<p align="center">
-Setup             
+<p align="center">            
 <img src="https://github.com/mjbaucas/UrbanSoundClassifier/blob/master/images/FrameworkSetup.png">
- </p>
+</p>
 
 # Configurations
 The environment comes with three configurations each focusing on a certain aspect of the network (i.e. Edge, Cloud, Hybrid)
