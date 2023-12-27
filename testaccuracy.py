@@ -44,11 +44,11 @@ x_data, labels = parse_audio_files(parent_dir,sub_dirs)
 y_data = one_hot_encode(labels)
 
 y_true, y_pred = None, None
-with tf.Session() as sess:
-    saver = tf.train.import_meta_graph('Models/Folder_Training.ckpt.meta')
-    saver.restore(sess,tf.train.latest_checkpoint('Models/'))
+with tf.compat.v1.Session() as sess:
+    saver = tf.compat.v1.train.import_meta_graph('Models/Folder_Training.ckpt.meta')
+    saver.restore(sess,tf.compat.v1.train.latest_checkpoint('Models/'))
 
-    graph = tf.get_default_graph()
+    graph = tf.compat.v1.get_default_graph()
 
     x_input = graph.get_tensor_by_name("X:0")
     result = graph.get_tensor_by_name("Result:0")
